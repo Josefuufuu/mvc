@@ -7,6 +7,8 @@ VALUES
 (4, 'user4@icesi.edu.co', 'hash4', 'User Cuatro', NULL, CURRENT_TIMESTAMP, NULL),
 (5, 'user5@icesi.edu.co', 'hash5', 'User Cinco', NULL, CURRENT_TIMESTAMP, NULL);
 
+ALTER TABLE USER_ACCOUNT ALTER COLUMN id RESTART WITH 6;
+
 -- Tabla: PERMISSION
 INSERT INTO PERMISSION (id, name, description)
 VALUES

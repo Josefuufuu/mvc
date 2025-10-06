@@ -1,5 +1,6 @@
 package edu.icesi.pensamiento_computacional.services.Impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +29,32 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserAccount createUser(UserAccount user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User information is required to create an account.");
+        }
+
         Set<Role> managedRoles = loadRoles(user.getRoles());
+
+        if (user.getInstitutionalEmail() == null || user.getInstitutionalEmail().isBlank()) {
+            throw new IllegalArgumentException("El correo institucional es obligatorio.");
+        }
+
+        if (userAccountRepository.existsByInstitutionalEmail(user.getInstitutionalEmail())) {
+            throw new IllegalArgumentException("El correo institucional ya está registrado.");
+        }
+
+        if (user.getPasswordHash() == null || user.getPasswordHash().isBlank()) {
+            throw new IllegalArgumentException("La contraseña es obligatoria.");
+        }
+
+        if (user.getFullName() == null || user.getFullName().isBlank()) {
+            throw new IllegalArgumentException("El nombre completo es obligatorio.");
+        }
+
+        if (user.getCreatedAt() == null) {
+            user.setCreatedAt(LocalDateTime.now());
+        }
+
         user.setRoles(managedRoles);
         return userAccountRepository.save(user);
     }
