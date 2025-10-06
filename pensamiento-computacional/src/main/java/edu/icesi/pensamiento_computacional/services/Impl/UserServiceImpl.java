@@ -1,10 +1,12 @@
 package edu.icesi.pensamiento_computacional.services.Impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.icesi.pensamiento_computacional.model.Role;
 import edu.icesi.pensamiento_computacional.model.UserAccount;
@@ -25,13 +27,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserAccount createUser(UserAccount user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User information is required to create an account.");
+        }
+
         Set<Role> managedRoles = loadRoles(user.getRoles());
+
+        if (user.getInstitutionalEmail() == null || user.getInstitutionalEmail().isBlank()) {
+            throw new IllegalArgumentException("El correo institucional es obligatorio.");
+        }
+
+        if (userAccountRepository.existsByInstitutionalEmail(user.getInstitutionalEmail())) {
+            throw new IllegalArgumentException("El correo institucional ya está registrado.");
+        }
+
+        if (user.getPasswordHash() == null || user.getPasswordHash().isBlank()) {
+            throw new IllegalArgumentException("La contraseña es obligatoria.");
+        }
+
+        if (user.getFullName() == null || user.getFullName().isBlank()) {
+            throw new IllegalArgumentException("El nombre completo es obligatorio.");
+        }
+
+        if (user.getCreatedAt() == null) {
+            user.setCreatedAt(LocalDateTime.now());
+        }
+
         user.setRoles(managedRoles);
         return userAccountRepository.save(user);
     }
 
     @Override
+    @Transactional
     public UserAccount updateUser(Integer id, UserAccount user) {
         UserAccount existingUser = userAccountRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User account not found with id " + id));
@@ -48,6 +77,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Integer id) {
         UserAccount user = userAccountRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User account not found with id " + id));
@@ -63,6 +93,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserAccount> getAllUsers() {
         return userAccountRepository.findAll();
+    }
+
+    @Override
+    public UserAccount authenticate(String institutionalEmail, String password) {
+        return userAccountRepository.findByInstitutionalEmail(institutionalEmail)
+                .filter(user -> password != null && password.equals(user.getPasswordHash()))
+                .orElseThrow(() -> new IllegalArgumentException("Correo o contraseña incorrectos."));
     }
 
     private Set<Role> loadRoles(Set<Role> roles) {

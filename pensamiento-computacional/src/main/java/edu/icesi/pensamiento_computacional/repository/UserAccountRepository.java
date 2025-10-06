@@ -14,6 +14,8 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
 
     Optional<UserAccount> findByInstitutionalEmail(String institutionalEmail);
 
+    boolean existsByInstitutionalEmail(String institutionalEmail);
+
     List<UserAccount> findByRoles_Name(String roleName);
 
     List<UserAccount> findBySelfDeclaredLevel_Code(LevelTierCode levelTierCode);

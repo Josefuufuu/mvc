@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+<body class="auth-body">
+    <section class="auth-container">
+        <h1>Crear una cuenta</h1>
+
+        <div th:if="${registrationError}" class="alert alert-error" th:text="${registrationError}"></div>
+
+        <form th:action="@{/auth/register}" th:object="${registrationForm}" method="post" class="auth-form">
+            <div class="form-group">
+                <label for="fullName">Nombre completo</label>
+                <input id="fullName" type="text" th:field="*{fullName}" placeholder="Tu nombre" />
+                <div class="field-error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="institutionalEmail">Correo institucional</label>
+                <input id="institutionalEmail" type="email" th:field="*{institutionalEmail}" placeholder="usuario@icesi.edu.co" />
+                <div class="field-error" th:if="${#fields.hasErrors('institutionalEmail')}" th:errors="*{institutionalEmail}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input id="password" type="password" th:field="*{password}" placeholder="Crea una contraseña" />
+                <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="roleIds">Roles</label>
+                <select id="roleIds" th:field="*{roleIds}" multiple size="3">
+                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                </select>
+                <small>Usa Ctrl (o Cmd) para seleccionar múltiples roles.</small>
+                <div class="field-error" th:if="${#fields.hasErrors('roleIds')}" th:errors="*{roleIds}"></div>
+            </div>
+
+            <button type="submit" class="primary-button">Registrarme</button>
+        </form>
+
+        <p class="auth-footer">
+            ¿Ya tienes cuenta?
+            <a th:href="@{/auth/login}">Inicia sesión</a>
+        </p>
+    </section>
+</body>
+</html>
