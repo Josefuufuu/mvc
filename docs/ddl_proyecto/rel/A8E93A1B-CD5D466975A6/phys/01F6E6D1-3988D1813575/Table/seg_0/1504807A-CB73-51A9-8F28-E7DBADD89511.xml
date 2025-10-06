@@ -1,0 +1,44 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="EXERCISE" directorySegmentName="seg_0" id="1504807A-CB73-51A9-8F28-E7DBADD89511">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="id" id="22E58203-63D1-2277-79FC-127B4847AACE">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="difficulty" id="E56698C6-64CF-4EB7-9404-A1D842AD1682">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="prompt" id="F9D83F6E-4C99-FF88-88A8-4F4523433599">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="EXERCISE_PK" id="981DCC8F-E44D-45A6-3C6E-4B1DE61BCF32">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+<tableCheckConstraints itemClass="oracle.dbtools.crest.model.design.storage.oracle.TableCheckConstraintOracle">
+<TableCheckConstraint name="ck_ex_difficulty" id="CAAB903A-6C47-8F0D-AEE6-EE1F8E84D2A4">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<nameChanged>true</nameChanged>
+</TableCheckConstraint>
+</tableCheckConstraints>
+</TableProxyOraclev20c>

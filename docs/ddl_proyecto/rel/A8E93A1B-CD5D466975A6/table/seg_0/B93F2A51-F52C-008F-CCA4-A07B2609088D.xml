@@ -1,0 +1,109 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B93F2A51-F52C-008F-CCA4-A07B2609088D" name="ENROLLMENT">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>C1B7159C-76C1-2326-7E4C-B6DEB091C27D</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="student_id" id="2435B145-7D88-9362-9D53-1FB75C170B58">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>99058957-D811-AD2F-FD7D-122C50E3FE77</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BBABFFAC-F17F-E5D3-519A-A2E83B51E0CF" referredColumn="B9FE569E-3212-FE28-8D5A-15B72C214FFD"/>
+</associations>
+</Column>
+<Column name="academic_term_id" id="B340CD2D-2437-8AF0-60F0-0E355344B12C">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>224F8EB0-339F-16F2-A256-A5E29D160B24</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9AC60C4C-C824-D9CC-28E0-A5B4B74B3196" referredColumn="8283B632-77DD-C6C9-787B-7BEA0FF3E15E"/>
+</associations>
+</Column>
+<Column name="group_section_id" id="2ACD95C3-F2F0-BB64-98A2-4CEA8EC0D88C">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>D7920BA2-EFC0-06B6-D81A-52AA37F70447</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9AC60C4C-C824-D9CC-28E0-A5B4B74B3196" referredColumn="1250314A-9B79-F293-F72F-AB6449FE1ACF"/>
+</associations>
+</Column>
+<Column name="enrolled_on" id="F4D8DBEE-A166-E519-7A09-1AAFD2D9B00D">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>0C93C816-8C86-769F-9AD1-7D96356B0942</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>35890D1D-3C53-FEB1-07EE-0F6468D63D98</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="B44446A8-1242-9A1A-0013-6547E6600B63" name="pk_enrollment">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>705B44F9-A904-6EE1-40CF-F9839B7397AC</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2435B145-7D88-9362-9D53-1FB75C170B58"/>
+<colUsage columnID="B340CD2D-2437-8AF0-60F0-0E355344B12C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5070B668-7271-F706-FC1A-63799B0BBC6C" name="fk_enr_group_composite">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B340CD2D-2437-8AF0-60F0-0E355344B12C"/>
+<colUsage columnID="2ACD95C3-F2F0-BB64-98A2-4CEA8EC0D88C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="018E7A0A-AA46-CA35-2377-DC52DA82515D" name="fk_enr_student">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2435B145-7D88-9362-9D53-1FB75C170B58"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

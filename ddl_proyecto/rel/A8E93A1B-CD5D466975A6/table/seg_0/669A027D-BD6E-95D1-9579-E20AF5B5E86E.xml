@@ -1,0 +1,116 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="669A027D-BD6E-95D1-9579-E20AF5B5E86E" name="GROUP_SECTION">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>CCC622B8-3723-F532-FA1E-923132BDEFE6</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="1250314A-9B79-F293-F72F-AB6449FE1ACF">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>ADCFBCE3-6B81-25B3-65BB-575351DC00C6</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="academic_term_id" id="8283B632-77DD-C6C9-787B-7BEA0FF3E15E">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>BAB518A0-A718-2F45-0A0C-007DDC873E33</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="DA7D00B7-CA13-A82C-E0D9-C1CA6341840B" referredColumn="FCD3E493-EB74-601F-9993-A15C1100EFF7"/>
+</associations>
+</Column>
+<Column name="group_code" id="0F5B5C08-0321-5F50-375B-4AFB1AB89799">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>1AE235FE-7BFB-5AB3-409A-B448A830AAF3</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>5A9392BF-6BE9-0DB8-67ED-02E3764A0E9F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="section_title" id="869D8230-412F-D038-B7E7-275380D80823">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>6E8D9A44-6000-59F8-733B-8A96166FCD88</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>A243ED12-5FF3-5216-6B41-225F85162C27</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E039837B-9910-13BF-203C-7D5038DE1922" name="GROUP_SECTION_PK">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>57CAEEFC-2A9F-5B94-CF83-6C226350B124</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1250314A-9B79-F293-F72F-AB6449FE1ACF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4B5F9C93-C3AB-A9F5-FB88-0AA422B65F42" name="uq_group_code_per_term">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>2AF4FFEC-5E76-C631-754C-080C35BCAF4E</importedID>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8283B632-77DD-C6C9-787B-7BEA0FF3E15E"/>
+<colUsage columnID="0F5B5C08-0321-5F50-375B-4AFB1AB89799"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="07591779-169F-C84F-446E-99CF62324EB4" name="uq_group_term_id_id">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>B1501526-61C9-E12C-4EEE-1126A2257A2F</importedID>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8283B632-77DD-C6C9-787B-7BEA0FF3E15E"/>
+<colUsage columnID="1250314A-9B79-F293-F72F-AB6449FE1ACF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="59E38FB5-1436-1C40-4308-A2A5FE551787" name="fk_group_term">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8283B632-77DD-C6C9-787B-7BEA0FF3E15E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

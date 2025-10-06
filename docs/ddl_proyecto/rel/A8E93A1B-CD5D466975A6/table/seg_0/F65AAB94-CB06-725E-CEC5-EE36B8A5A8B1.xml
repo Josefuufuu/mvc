@@ -1,0 +1,93 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F65AAB94-CB06-725E-CEC5-EE36B8A5A8B1" name="TEACHING_ASSIGNMENT">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>D20D0504-A0E6-0D68-ECCD-C509EA084933</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="professor_id" id="AD0ADC8B-32F7-1E1E-2DF2-FAC5431B5F9E">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>162DC318-A0A8-8281-3EB7-3449B7A0AABA</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6E1956F5-3D7A-2B56-907A-5DF03DE4F8CC" referredColumn="B9FE569E-3212-FE28-8D5A-15B72C214FFD"/>
+</associations>
+</Column>
+<Column name="group_section_id" id="7E511D6D-7CE4-1C99-D61B-DC3374A70A61">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>858D272E-18AE-C907-6481-3B0A3B04E408</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0101E916-44D6-B369-4D6F-62A912439D58" referredColumn="1250314A-9B79-F293-F72F-AB6449FE1ACF"/>
+</associations>
+</Column>
+<Column name="assigned_on" id="29532257-22E3-6EA9-D14B-8A01C536A5CA">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>8439A99A-D37A-4D44-BCDE-C2AEA1F5F3A5</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>35890D1D-3C53-FEB1-07EE-0F6468D63D98</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E6BE7BBC-A323-F2B5-762A-B43E0348B0BB" name="pk_teaching_assignment">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>2DC18839-4600-030B-A9BB-80C02EB5984A</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AD0ADC8B-32F7-1E1E-2DF2-FAC5431B5F9E"/>
+<colUsage columnID="7E511D6D-7CE4-1C99-D61B-DC3374A70A61"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1DCF4E42-96B6-78B7-93C0-24A534D51B63" name="fk_ta_group_section">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7E511D6D-7CE4-1C99-D61B-DC3374A70A61"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="882FF54F-FB39-CD89-0428-4D009DABEEB8" name="fk_ta_professor">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AD0ADC8B-32F7-1E1E-2DF2-FAC5431B5F9E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

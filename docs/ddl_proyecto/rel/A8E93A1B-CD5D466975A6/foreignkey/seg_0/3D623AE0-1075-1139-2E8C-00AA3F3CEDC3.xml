@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="3D623AE0-1075-1139-2E8C-00AA3F3CEDC3" containerWithKeyObject="95A1049E-69C4-70C5-9EA9-9F230850FC50" localFKIndex="CB8F77CD-3982-DBA2-118E-0A76ACFD31D8" name="fk_se_activity_exercise">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>89BCF431-BF20-0CDF-595B-26E5FAF56C18</importedID>
+<referredTableLongName>ACTIVITY_EXERCISE</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>82DEA367-E7D7-1AC6-FA46-10BDD084C3E4</referredTableID>
+<keyObject>1A762C62-C2BF-F12E-1612-F77EC88E5805</keyObject>
+<referredKeyID>1A762C62-C2BF-F12E-1612-F77EC88E5805</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>activity_id,exercise_id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

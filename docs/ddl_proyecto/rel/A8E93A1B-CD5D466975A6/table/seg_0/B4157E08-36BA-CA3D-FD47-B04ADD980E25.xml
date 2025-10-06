@@ -1,0 +1,179 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B4157E08-36BA-CA3D-FD47-B04ADD980E25" name="USER_ACCOUNT">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>09FB8ED9-456B-D64F-E783-96865B749354</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="B9FE569E-3212-FE28-8D5A-15B72C214FFD">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>960CB24E-34C6-D2B8-4F5F-2A599623A8F6</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="institutional_email" id="9C1F010A-E431-0A6F-8E73-355341CF2C8D">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>F3A5B29C-0DA6-3A87-C302-85BEFABA1028</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>A243ED12-5FF3-5216-6B41-225F85162C27</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="password_hash" id="BDDC1412-CCD3-B178-AE3E-59295158375D">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>49A06129-A7DA-F9E2-BAE4-683DB89654B4</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>A243ED12-5FF3-5216-6B41-225F85162C27</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="full_name" id="FC6C3371-A282-079C-8111-2CB4F6AD1019">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>28701FB0-FC2E-B996-1C9E-9C0D47ABEF11</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>A243ED12-5FF3-5216-6B41-225F85162C27</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="profile_photo_url" id="1A2A60CD-B2BB-B0CE-489F-90A2591622F7">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>AC801585-E34B-F5C6-18AA-CC505C89B4DE</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>AEAE27DB-595C-80AA-ED8C-196E0FB7844A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="user_type" id="79F78BE0-D52C-89CA-BCBC-63981606161F">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>9C2EFAE8-B9E7-BBDF-409A-C0384DFA04E6</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>5A9392BF-6BE9-0DB8-67ED-02E3764A0E9F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="self_declared_level" id="C02F8432-9913-FF8E-854B-EDC915FBB6E9">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>4521C975-CBA4-5217-D638-3F18473A9E20</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>5A9392BF-6BE9-0DB8-67ED-02E3764A0E9F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="723FD4C8-3D02-D986-40D1-F2B64F3CCCD3" referredColumn="91E2106D-9EA0-D22C-0EA2-28FDFF32F624"/>
+</associations>
+</Column>
+<Column name="created_at" id="656C9E38-80A8-2B94-6CBA-49977D719B91">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>775CD823-0BDB-54D4-4E26-444CB558981C</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>35890D1D-3C53-FEB1-07EE-0F6468D63D98</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="A1FCF55B-AF23-0E5D-CB5D-3A7C550AF30A" name="USER_ACCOUNT_PK">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>99F2AF1B-AE9F-7E44-FC78-A6DDBD15A104</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B9FE569E-3212-FE28-8D5A-15B72C214FFD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="64520844-C545-362E-9E87-BCE6FAE583E5" name="uq_user_account_email">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>AD9DB611-8967-C0B4-7409-53D04F3056F5</importedID>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9C1F010A-E431-0A6F-8E73-355341CF2C8D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FADFEB96-51E8-0D04-4894-31F60DA7B4AD" name="fk_user_level">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C02F8432-9913-FF8E-854B-EDC915FBB6E9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+<tableCheckConstraints itemClass="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint">
+<tableCheckConstraint name="ck_user_email_domain" directorySegmentName="seg_0" id="F6FC74CC-670B-8EDE-22E9-63A8292A30FD">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>FB73EC80-6718-EB9F-1824-952FEE1F48F3</importedID>
+<rule><![CDATA[institutional_email LIKE '%@u.icesi.edu.co']]></rule>
+</tableCheckConstraint>
+<tableCheckConstraint name="ck_user_type" directorySegmentName="seg_0" id="C6A95010-60FE-B98D-9E2A-9A395060AA74">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>C74BE2B4-AFDB-951E-2AE3-FE31363E71A7</importedID>
+<rule><![CDATA[user_type IN ('student','professor','admin')]]></rule>
+</tableCheckConstraint>
+<tableCheckConstraint name="ck_user_student_level" directorySegmentName="seg_0" id="9AB468E3-9754-8FEC-9996-290830434F03">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>07247137-8566-4428-C690-D55BC5EE9839</importedID>
+<rule><![CDATA[(user_type <> 'student' AND self_declared_level IS NULL) OR (user_type = 'student' AND self_declared_level IS NOT NULL)]]></rule>
+</tableCheckConstraint>
+</tableCheckConstraints>
+</Table>

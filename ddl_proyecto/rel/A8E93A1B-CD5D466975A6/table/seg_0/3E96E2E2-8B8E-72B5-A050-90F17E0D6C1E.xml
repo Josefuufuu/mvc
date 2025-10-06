@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="3E96E2E2-8B8E-72B5-A050-90F17E0D6C1E" name="EXERCISE_TARGET_PROFILE">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>69C376DD-2B6F-729E-54FA-9A25D58B8567</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="exercise_id" id="E5AB76B8-E116-E520-7FB8-17E7AC79FC51">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>38C39CE3-6C69-E2B9-44A8-36782770DBB0</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3CA7768F-32DD-F12F-8FD2-79C9D5A2E5AE" referredColumn="22E58203-63D1-2277-79FC-127B4847AACE"/>
+</associations>
+</Column>
+<Column name="profile_code" id="E2460A7A-7BBF-A259-7086-B33512BDBA2A">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>98E56405-99AE-C2E0-0C55-B03259A73959</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>5A9392BF-6BE9-0DB8-67ED-02E3764A0E9F</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="373F4107-FDA8-D57E-A5FF-20220FCF6600" referredColumn="91E2106D-9EA0-D22C-0EA2-28FDFF32F624"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="880C99DB-54C1-A767-70FB-3C70AC13F5B2" name="pk_exercise_target_profile">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>CB5020A8-6CDA-571C-31CB-BDCC9D8BFFD1</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E5AB76B8-E116-E520-7FB8-17E7AC79FC51"/>
+<colUsage columnID="E2460A7A-7BBF-A259-7086-B33512BDBA2A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B6A5A72A-1E27-92BA-99E1-D1AA8587A3F1" name="fk_etp_exercise">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E5AB76B8-E116-E520-7FB8-17E7AC79FC51"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="53AA2B9D-6E72-862A-E187-940BB002D77E" name="fk_etp_level">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E2460A7A-7BBF-A259-7086-B33512BDBA2A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

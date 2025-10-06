@@ -1,0 +1,15 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="Relational_1" id="A8E93A1B-BDB3-99CB-6B9E-CD5D466975A6" mainViewID="EA77A81D-67E1-65BD-8F29-C6525AB62E61">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:39 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+<selectedRDBMSSite>01F6E6D1-21D0-CFBD-ABDD-3988D1813575</selectedRDBMSSite>
+<importDDLFileStamps>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>subir.sql</fileName>
+<pathName>C:\Users\Hatzu\Desktop</pathName>
+<dbType>17</dbType>
+</importDDLFileStamp>
+</importDDLFileStamps>
+</relationalModel>

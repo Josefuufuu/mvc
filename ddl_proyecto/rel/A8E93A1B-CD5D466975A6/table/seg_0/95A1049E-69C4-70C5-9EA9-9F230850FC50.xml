@@ -1,0 +1,180 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="95A1049E-69C4-70C5-9EA9-9F230850FC50" name="SCORING_EVENT">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>CABA2532-4497-EBF3-0E7A-4F2554E6133F</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="6EA202D2-5B9D-E3CA-0A01-77386654AA12">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>DF6F3B35-7CBF-AD47-3D1D-273D09CA971F</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="student_id" id="0CACA61D-3110-0ACE-82C2-3BFA28E31048">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>3DE8B050-D544-6085-51D1-AD0574C721E6</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="80D6BEB8-52BF-7294-27B3-9E03C5996D93" referredColumn="B9FE569E-3212-FE28-8D5A-15B72C214FFD"/>
+</associations>
+</Column>
+<Column name="activity_id" id="054876E9-5F0D-4538-A3AC-4ED970C37B71">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>2CAB5997-DDB6-3945-AC95-08363C850CD7</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3D623AE0-1075-1139-2E8C-00AA3F3CEDC3" referredColumn="F47E5EB6-FEB5-A64F-CA8F-DB5A2EFC44D8"/>
+</associations>
+</Column>
+<Column name="exercise_id" id="FDD7BC0E-A4E6-8FF6-442B-4371D08A0682">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>E9E46A17-D272-7CF7-B4EE-0D7878970E48</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3D623AE0-1075-1139-2E8C-00AA3F3CEDC3" referredColumn="39F86366-5F55-BF56-CF9D-030D893287C6"/>
+</associations>
+</Column>
+<Column name="awarded_points" id="D3AD4A0B-9F3E-821C-3C42-258440117700">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>468D46A3-8476-B110-CF5E-D4BA6D2FC0AE</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="awarded_by_user_id" id="7C8A263B-0A66-9A01-38C4-33D84CA032BA">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>32D3D774-B1BF-76B2-68C2-A0B3284A47B7</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>933E280D-DB57-777A-4990-127FD6A84645</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C1D593B7-E518-5210-ABA5-CFEAFBB7FB27" referredColumn="B9FE569E-3212-FE28-8D5A-15B72C214FFD"/>
+</associations>
+</Column>
+<Column name="awarded_at" id="CCFAFAFE-5F3C-A88A-501A-7F8B63125D76">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>5D6F64BB-1026-9C22-10BD-917D8E674088</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>35890D1D-3C53-FEB1-07EE-0F6468D63D98</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="comment" id="03373C02-9ABD-FC42-71F1-B56C02198F7C">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>8C02472E-33D7-AE2E-747E-A42F2214B999</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>F03A41A2-7CC8-110A-8206-1A48B7FC42FA</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="B8E7F85A-F649-5C6A-1952-E00C026E8426" name="SCORING_EVENT_PK">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>2313DC90-E692-5BE8-8865-AFF98B1603BC</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6EA202D2-5B9D-E3CA-0A01-77386654AA12"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CB8F77CD-3982-DBA2-118E-0A76ACFD31D8" name="fk_se_activity_exercise">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="054876E9-5F0D-4538-A3AC-4ED970C37B71"/>
+<colUsage columnID="FDD7BC0E-A4E6-8FF6-442B-4371D08A0682"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F53FCDDD-F758-26C2-CBAB-F945A59AF21C" name="fk_se_awarded_by">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7C8A263B-0A66-9A01-38C4-33D84CA032BA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BFDE147B-D15D-6AB8-80F0-618E785E71BF" name="fk_se_student">
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0CACA61D-3110-0ACE-82C2-3BFA28E31048"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+<tableCheckConstraints itemClass="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint">
+<tableCheckConstraint name="ck_se_points_nonneg" directorySegmentName="seg_0" id="880BB65B-93A9-3533-4F2D-DE17AE351C5F">
+<sourceDDLFile>subir.sql</sourceDDLFile>
+<createdBy>Hatzu</createdBy>
+<createdTime>2025-09-14 17:27:59 UTC</createdTime>
+<ownerDesignName>ddl_proyecto</ownerDesignName>
+<importedID>71C5A8FA-CA9F-2753-87EB-CD818C0F7D74</importedID>
+<rule><![CDATA[awarded_points >= 0]]></rule>
+</tableCheckConstraint>
+</tableCheckConstraints>
+</Table>
