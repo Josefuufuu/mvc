@@ -1,14 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: #f9fafb;
+            color: #111827;
+        }
+
+        .home-container {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .home-container h1 {
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .action-buttons a {
+            padding: 0.75rem 1.75rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            box-shadow: 0 10px 20px rgba(29, 78, 216, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .action-buttons a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(29, 78, 216, 0.25);
+        }
+
+        .flash-message {
+            margin: 0 auto 1.5rem;
+            max-width: 480px;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            background-color: rgba(22, 163, 74, 0.1);
+            color: #15803d;
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+    </style>
 </head>
 <body>
-    <div>
+    <div class="home-container">
+        <div th:if="${successMessage}" class="flash-message" th:text="${successMessage}"></div>
         <h1>Esta es la pagina principal</h1>
+        <p>Accede con tu cuenta para continuar o crea una nueva si es tu primera vez.</p>
+        <div class="action-buttons">
+            <a th:href="@{/auth/login}">Iniciar sesión</a>
+            <a th:href="@{/auth/register}">Registrarme</a>
+        </div>
     </div>
-    
 </body>
 </html>
