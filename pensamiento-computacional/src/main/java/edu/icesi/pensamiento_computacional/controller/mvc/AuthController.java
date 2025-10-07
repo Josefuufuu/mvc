@@ -62,6 +62,11 @@ public class AuthController {
                             loginForm.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserAccount authenticatedUser = userService.authenticate(
+                    loginForm.getInstitutionalEmail(),
+                    loginForm.getPassword());
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String displayName = resolveDisplayName(authentication);
             redirectAttributes.addFlashAttribute("successMessage",

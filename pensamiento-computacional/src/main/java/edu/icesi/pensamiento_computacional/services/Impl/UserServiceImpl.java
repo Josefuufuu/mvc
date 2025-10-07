@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
         }
 
         return userAccountRepository.findByInstitutionalEmail(institutionalEmail)
-                .filter(user -> passwordEncoder.matches(password, user.getPasswordHash()))
+                .filter(user -> password != null && passwordEncoder.matches(password, user.getPasswordHash()))
                 .orElseThrow(() -> new IllegalArgumentException("Correo o contraseña incorrectos."));
     }
 
