@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -271,6 +272,97 @@ class UserServiceTest {
 
         assertThrows(IllegalArgumentException.class,
                 () -> userService.authenticate(storedUser.getInstitutionalEmail(), "wrong"));
+    }
+
+    @Test
+    void authenticate_withUnknownEmail_throwsException() {
+        when(userAccountRepository.findByInstitutionalEmail("unknown@icesi.edu.co"))
+                .thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.authenticate("unknown@icesi.edu.co", "password"));
+    }
+
+    @Test
+    void assignRoles_withValidIds_updatesUserRoles() {
+        Role existingRole = buildRole(1, "Teacher");
+        Role newRole = buildRole(2, "Coordinator");
+        UserAccount user = buildUser(Set.of(existingRole));
+        user.setId(5);
+
+        when(userAccountRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        when(roleRepository.findById(newRole.getId())).thenReturn(Optional.of(newRole));
+        when(userAccountRepository.save(user)).thenReturn(user);
+
+        UserAccount updated = userService.assignRoles(user.getId(), Set.of(newRole.getId()));
+
+        assertEquals(Set.of(newRole), updated.getRoles());
+        verify(userAccountRepository).save(user);
+    }
+
+    @Test
+    void assignRoles_withEmptySelection_throwsException() {
+        assertThrows(IllegalArgumentException.class, () -> userService.assignRoles(1, Collections.emptySet()));
+        verify(userAccountRepository, never()).findById(any());
+    }
+
+    @Test
+    void assignRoles_withUnknownRole_throwsException() {
+        UserAccount user = buildUser(Set.of(buildRole(1, "Teacher")));
+        user.setId(6);
+
+        when(userAccountRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        when(roleRepository.findById(9)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> userService.assignRoles(user.getId(), Set.of(9)));
+        verify(userAccountRepository, never()).save(any(UserAccount.class));
+    }
+
+    @Test
+    void removeRoles_withExistingRoles_updatesSet() {
+        Role keepRole = buildRole(1, "Teacher");
+        Role removableRole = buildRole(2, "Assistant");
+        Set<Role> roles = new HashSet<>(Set.of(keepRole, removableRole));
+        UserAccount user = buildUser(roles);
+        user.setId(7);
+
+        when(userAccountRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        when(userAccountRepository.save(user)).thenReturn(user);
+
+        UserAccount updated = userService.removeRoles(user.getId(), Set.of(removableRole.getId()));
+
+        assertEquals(Set.of(keepRole), updated.getRoles());
+        verify(userAccountRepository).save(user);
+    }
+
+    @Test
+    void removeRoles_whenAllRolesWouldBeRemoved_throwsException() {
+        Role singleRole = buildRole(1, "Teacher");
+        UserAccount user = buildUser(Set.of(singleRole));
+        user.setId(8);
+
+        when(userAccountRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> userService.removeRoles(user.getId(), Set.of(singleRole.getId())));
+
+        assertTrue(exception.getMessage().contains("al menos un rol"));
+        verify(userAccountRepository, never()).save(any(UserAccount.class));
+    }
+
+    @Test
+    void removeRoles_withMissingRole_throwsException() {
+        Role keepRole = buildRole(1, "Teacher");
+        UserAccount user = buildUser(Set.of(keepRole));
+        user.setId(9);
+
+        when(userAccountRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> userService.removeRoles(user.getId(), Set.of(99)));
+
+        assertTrue(exception.getMessage().contains("no tiene los roles"));
+        verify(userAccountRepository, never()).save(any(UserAccount.class));
     }
 
     private UserAccount buildUser(Set<Role> roles) {

@@ -9,11 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.icesi.pensamiento_computacional.controller.mvc.form.RoleForm;
+import edu.icesi.pensamiento_computacional.controller.mvc.form.RolePermissionAssignmentForm;
 import edu.icesi.pensamiento_computacional.model.Permission;
 import edu.icesi.pensamiento_computacional.model.Role;
 import edu.icesi.pensamiento_computacional.repository.PermissionRepository;
@@ -36,6 +38,7 @@ public class RoleController {
             model.addAttribute("roleForm", new RoleForm());
         }
         populatePermissions(model);
+        populateRoles(model);
         return "roles/create";
     }
 
@@ -78,7 +81,82 @@ public class RoleController {
         return "roles/create";
     }
 
+    @GetMapping("/assign-permissions")
+    public String showAssignPermissions(Model model) {
+        if (!model.containsAttribute("assignmentForm")) {
+            model.addAttribute("assignmentForm", new RolePermissionAssignmentForm());
+        }
+        populateRoles(model);
+        populatePermissions(model);
+        return "roles/assign-permissions";
+    }
+
+    @PostMapping("/assign-permissions")
+    public String assignPermissions(@Valid @ModelAttribute("assignmentForm") RolePermissionAssignmentForm assignmentForm,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            populateRoles(model);
+            populatePermissions(model);
+            return "roles/assign-permissions";
+        }
+
+        try {
+            Role existingRole = roleService.getRoleById(assignmentForm.getRoleId());
+            Role updatedRole = new Role();
+            updatedRole.setName(existingRole.getName());
+            updatedRole.setDescription(existingRole.getDescription());
+
+            Set<Permission> selectedPermissions = new HashSet<>();
+            assignmentForm.getPermissionIds().forEach(permissionId -> {
+                Permission permission = new Permission();
+                permission.setId(permissionId);
+                selectedPermissions.add(permission);
+            });
+
+            updatedRole.setPermissions(selectedPermissions);
+            roleService.updateRole(existingRole.getId(), updatedRole);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Permisos actualizados correctamente.");
+            return "redirect:/roles/assign-permissions";
+        } catch (EntityNotFoundException ex) {
+            bindingResult.rejectValue("roleId", "role.notfound", ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            bindingResult.rejectValue("permissionIds", "permission.invalid", ex.getMessage());
+        }
+
+        populateRoles(model);
+        populatePermissions(model);
+        return "roles/assign-permissions";
+    }
+
+    @GetMapping("/manage")
+    public String showRoleManagement(Model model) {
+        model.addAttribute("roles", roleService.getAllRoles());
+        return "roles/manage";
+    }
+
+    @PostMapping("/{roleId}/delete")
+    public String deleteRole(@PathVariable Integer roleId, RedirectAttributes redirectAttributes) {
+        try {
+            roleService.deleteRole(roleId);
+            redirectAttributes.addFlashAttribute("successMessage", "Rol eliminado correctamente.");
+        } catch (EntityNotFoundException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+        } catch (DataIntegrityViolationException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "No es posible eliminar el rol porque está asociado a usuarios.");
+        }
+        return "redirect:/roles/manage";
+    }
+
     private void populatePermissions(Model model) {
         model.addAttribute("permissions", permissionRepository.findAll());
+    }
+
+    private void populateRoles(Model model) {
+        model.addAttribute("roles", roleService.getAllRoles());
     }
 }

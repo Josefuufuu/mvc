@@ -5,11 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,22 +19,27 @@ import edu.icesi.pensamiento_computacional.controller.mvc.form.UserRegistrationF
 import edu.icesi.pensamiento_computacional.model.Role;
 import edu.icesi.pensamiento_computacional.model.UserAccount;
 import edu.icesi.pensamiento_computacional.repository.RoleRepository;
-import edu.icesi.pensamiento_computacional.security.UserAccountPrincipal;
 import edu.icesi.pensamiento_computacional.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
+    public static final String SESSION_USER_ID = "currentUserId";
+    public static final String SESSION_USER_NAME = "currentUserName";
+
     private final UserService userService;
     private final RoleRepository roleRepository;
-    private final AuthenticationManager authenticationManager;
 
     @GetMapping("/login")
-    public String showLoginForm(Model model) {
+    public String showLoginForm(Model model, HttpSession session) {
+        if (session.getAttribute(SESSION_USER_ID) != null) {
+            return "redirect:/dashboard";
+        }
         if (!model.containsAttribute("loginForm")) {
             model.addAttribute("loginForm", new LoginForm());
         }
@@ -50,42 +50,38 @@ public class AuthController {
     public String processLogin(@Valid @ModelAttribute("loginForm") LoginForm loginForm,
             BindingResult bindingResult,
             Model model,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "auth/login";
         }
 
-    try {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginForm.getInstitutionalEmail(),
-                        loginForm.getPassword()));
+        try {
+            UserAccount authenticatedUser = userService.authenticate(
+                    loginForm.getInstitutionalEmail(),
+                    loginForm.getPassword());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String displayName = resolveDisplayName(authentication);
-        redirectAttributes.addFlashAttribute("successMessage",
-                "Bienvenido, " + displayName + "!");
-        return "redirect:/Home";
-            } catch (AuthenticationException | IllegalArgumentException ex) {
-                model.addAttribute("authenticationError", "Correo o contraseña incorrectos.");
-                return "auth/login";
+            String displayName = authenticatedUser.getFullName();
+            if (displayName == null || displayName.isBlank()) {
+                displayName = authenticatedUser.getInstitutionalEmail();
             }
-        }
 
-    private String resolveDisplayName(Authentication authentication) {
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof UserAccountPrincipal userPrincipal) {
-            String fullName = userPrincipal.getFullName();
-            if (fullName != null && !fullName.isBlank()) {
-                return fullName;
-            }
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Bienvenido, " + displayName + "!");
+            session.setAttribute(SESSION_USER_ID, authenticatedUser.getId());
+            session.setAttribute(SESSION_USER_NAME, displayName);
+            return "redirect:/dashboard";
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("authenticationError", "Correo o contraseña incorrectos.");
+            return "auth/login";
         }
-        return authentication.getName();
     }
 
     @GetMapping("/register")
-    public String showRegisterForm(Model model) {
+    public String showRegisterForm(Model model, HttpSession session) {
+        if (session.getAttribute(SESSION_USER_ID) != null) {
+            return "redirect:/dashboard";
+        }
         if (!model.containsAttribute("registrationForm")) {
             model.addAttribute("registrationForm", new UserRegistrationForm());
         }
@@ -97,7 +93,8 @@ public class AuthController {
     public String processRegister(@Valid @ModelAttribute("registrationForm") UserRegistrationForm registrationForm,
             BindingResult bindingResult,
             Model model,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
         if (bindingResult.hasErrors()) {
             populateRoles(model);
             return "auth/register";
@@ -121,9 +118,16 @@ public class AuthController {
             newUser.setRoles(selectedRoles);
 
             userService.createUser(newUser);
+            UserAccount authenticated = userService.authenticate(registrationForm.getInstitutionalEmail(),
+                    registrationForm.getPassword());
+            session.setAttribute(SESSION_USER_ID, authenticated.getId());
+            session.setAttribute(SESSION_USER_NAME,
+                    authenticated.getFullName() != null && !authenticated.getFullName().isBlank()
+                            ? authenticated.getFullName()
+                            : authenticated.getInstitutionalEmail());
             redirectAttributes.addFlashAttribute("successMessage",
-                    "Cuenta creada con éxito. Ahora puedes iniciar sesión.");
-            return "redirect:/auth/login";
+                    "Cuenta creada con éxito. ¡Bienvenido!");
+            return "redirect:/dashboard";
         } catch (DataIntegrityViolationException ex) {
             model.addAttribute("registrationError", "El correo institucional ya está registrado.");
             populateRoles(model);
@@ -133,6 +137,13 @@ public class AuthController {
             populateRoles(model);
             return "auth/register";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+        session.invalidate();
+        redirectAttributes.addFlashAttribute("successMessage", "Has cerrado sesión correctamente.");
+        return "redirect:/Home";
     }
 
     private void populateRoles(Model model) {

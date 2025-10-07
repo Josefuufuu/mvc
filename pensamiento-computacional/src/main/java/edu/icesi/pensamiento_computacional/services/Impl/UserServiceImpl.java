@@ -1,6 +1,7 @@
 package edu.icesi.pensamiento_computacional.services.Impl;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -104,6 +105,63 @@ public class UserServiceImpl implements UserService {
         return userAccountRepository.findAll();
     }
 
+    @Override
+    public UserAccount authenticate(String institutionalEmail, String rawPassword) {
+        UserAccount userAccount = userAccountRepository.findByInstitutionalEmail(institutionalEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid institutional email or password."));
+
+        if (!passwordEncoder.matches(rawPassword, userAccount.getPasswordHash())) {
+            throw new IllegalArgumentException("Invalid institutional email or password.");
+        }
+
+        return userAccount;
+    }
+
+    @Override
+    @Transactional
+    public UserAccount assignRoles(Integer userId, Set<Integer> roleIds) {
+        if (roleIds == null || roleIds.isEmpty()) {
+            throw new IllegalArgumentException("Debe seleccionar al menos un rol para asignar.");
+        }
+
+        UserAccount user = userAccountRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User account not found with id " + userId));
+
+        Set<Role> managedRoles = loadRolesByIds(roleIds);
+        user.setRoles(managedRoles);
+        return userAccountRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public UserAccount removeRoles(Integer userId, Set<Integer> roleIds) {
+        if (roleIds == null || roleIds.isEmpty()) {
+            throw new IllegalArgumentException("Debe seleccionar los roles que desea eliminar.");
+        }
+
+        UserAccount user = userAccountRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User account not found with id " + userId));
+
+        Set<Role> currentRoles = user.getRoles();
+        if (currentRoles == null || currentRoles.isEmpty()) {
+            throw new IllegalArgumentException("El usuario no tiene roles registrados para eliminar.");
+        }
+
+        Set<Role> updatedRoles = new HashSet<>(currentRoles);
+        boolean removedAny = updatedRoles.removeIf(role -> roleIds.contains(role.getId()));
+
+        if (!removedAny) {
+            throw new IllegalArgumentException("El usuario no tiene los roles seleccionados.");
+        }
+
+        if (updatedRoles.isEmpty()) {
+            throw new IllegalArgumentException("El usuario debe conservar al menos un rol asignado.");
+        }
+
+        user.setRoles(updatedRoles);
+        return userAccountRepository.save(user);
+    }
+
 
     private Set<Role> loadRoles(Set<Role> roles) {
         if (roles == null || roles.isEmpty()) {
@@ -119,5 +177,11 @@ public class UserServiceImpl implements UserService {
             return roleRepository.findById(roleId)
                     .orElseThrow(() -> new EntityNotFoundException("Role not found with id " + roleId));
         }).collect(Collectors.toSet());
+    }
+
+    private Set<Role> loadRolesByIds(Set<Integer> roleIds) {
+        return roleIds.stream().map(roleId -> roleRepository.findById(roleId)
+                .orElseThrow(() -> new EntityNotFoundException("Role not found with id " + roleId)))
+                .collect(Collectors.toSet());
     }
 }
