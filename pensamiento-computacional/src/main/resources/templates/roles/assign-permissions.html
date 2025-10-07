@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear rol</title>
+    <title>Asociar permisos al rol</title>
     <style>
         body {
             margin: 0;
@@ -56,8 +56,6 @@
             font-weight: 600;
         }
 
-        input[type="text"],
-        textarea,
         select {
             padding: 0.75rem 1rem;
             border: 1px solid #cbd5f5;
@@ -66,13 +64,6 @@
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        input:focus,
-        textarea:focus,
         select:focus {
             outline: none;
             border-color: #2563eb;
@@ -125,32 +116,27 @@
         <h2>Administración de roles</h2>
         <nav>
             <a th:href="@{/dashboard}">Panel principal</a>
-            <span style="margin: 0 0.75rem; color: rgba(224, 231, 255, 0.7);">|</span>
-            <a th:href="@{/Home}">Inicio público</a>
         </nav>
     </header>
 
     <main>
         <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-        <h1>Crear rol</h1>
-        <p>Completa la información del rol y selecciona los permisos que se asociarán.</p>
+        <h1>Asociar permisos a un rol</h1>
+        <p>Selecciona el rol y define los permisos que tendrá disponibles.</p>
 
-        <form th:action="@{/roles/create}" th:object="${roleForm}" method="post">
+        <form th:action="@{/roles/assign-permissions}" th:object="${assignmentForm}" method="post">
             <div class="form-group">
-                <label for="name">Nombre del rol</label>
-                <input id="name" type="text" th:field="*{name}" placeholder="Ej: ADMIN" />
-                <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-            </div>
-
-            <div class="form-group">
-                <label for="description">Descripción</label>
-                <textarea id="description" th:field="*{description}" placeholder="Describe las responsabilidades del rol"></textarea>
-                <div class="field-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                <label for="roleId">Rol</label>
+                <select id="roleId" th:field="*{roleId}">
+                    <option value="" disabled selected>Selecciona un rol</option>
+                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                </select>
+                <div class="field-error" th:if="${#fields.hasErrors('roleId')}" th:errors="*{roleId}"></div>
             </div>
 
             <div class="form-group">
                 <label for="permissionIds">Permisos disponibles</label>
-                <select id="permissionIds" th:field="*{permissionIds}" multiple size="6">
+                <select id="permissionIds" th:field="*{permissionIds}" multiple size="8">
                     <option th:each="permission : ${permissions}" th:value="${permission.id}"
                         th:text="${permission.name}"></option>
                 </select>
@@ -159,7 +145,7 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit">Crear rol</button>
+                <button type="submit">Actualizar permisos</button>
             </div>
         </form>
     </main>

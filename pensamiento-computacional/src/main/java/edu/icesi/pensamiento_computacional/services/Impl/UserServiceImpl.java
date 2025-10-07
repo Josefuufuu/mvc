@@ -1,6 +1,7 @@
 package edu.icesi.pensamiento_computacional.services.Impl;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -131,5 +132,11 @@ public class UserServiceImpl implements UserService {
             return roleRepository.findById(roleId)
                     .orElseThrow(() -> new EntityNotFoundException("Role not found with id " + roleId));
         }).collect(Collectors.toSet());
+    }
+
+    private Set<Role> loadRolesByIds(Set<Integer> roleIds) {
+        return roleIds.stream().map(roleId -> roleRepository.findById(roleId)
+                .orElseThrow(() -> new EntityNotFoundException("Role not found with id " + roleId)))
+                .collect(Collectors.toSet());
     }
 }

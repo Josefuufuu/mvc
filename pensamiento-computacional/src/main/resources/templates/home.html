@@ -61,8 +61,8 @@
 <body>
     <div class="home-container">
         <div th:if="${successMessage}" class="flash-message" th:text="${successMessage}"></div>
-        <h1>Esta es la pagina principal</h1>
-        <p>Accede con tu cuenta para continuar o crea una nueva si es tu primera vez.</p>
+        <h1>Bienvenido a la plataforma</h1>
+        <p>Accede con tu cuenta para administrar roles y permisos o regístrate si es tu primera vez.</p>
         <div class="action-buttons">
             <a th:href="@{/auth/login}">Iniciar sesión</a>
             <a th:href="@{/auth/register}">Registrarme</a>

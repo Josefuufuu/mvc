@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar roles</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+            color: #fff;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: #e0e7ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 960px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(30, 64, 175, 0.12);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.85rem 1rem;
+        }
+
+        th {
+            background: #e0e7ff;
+            color: #1e3a8a;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        tr:nth-child(even) {
+            background: #f1f5f9;
+        }
+
+        form {
+            display: inline;
+        }
+
+        button {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(220, 38, 38, 0.25);
+        }
+
+        .alert {
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background-color: rgba(34, 197, 94, 0.15);
+            color: #15803d;
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+
+        .alert-error {
+            background-color: rgba(248, 113, 113, 0.15);
+            color: #b91c1c;
+            border: 1px solid rgba(248, 113, 113, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Administración de roles</h2>
+        <nav>
+            <a th:href="@{/dashboard}">Panel principal</a>
+        </nav>
+    </header>
+
+    <main>
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+        <h1>Eliminar roles</h1>
+        <p>Consulta los roles existentes y elimina aquellos que ya no se necesitan.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Permisos asociados</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="role : ${roles}">
+                    <td th:text="${role.name}"></td>
+                    <td th:text="${role.description != null ? role.description : 'Sin descripción'}"></td>
+                    <td>
+                        <span th:if="${#lists.isEmpty(role.permissions)}">Sin permisos</span>
+                        <ul th:if="${!#lists.isEmpty(role.permissions)}" style="margin: 0; padding-left: 1.25rem;">
+                            <li th:each="permission : ${role.permissions}" th:text="${permission.name}"></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <form th:action="@{'/roles/' + ${role.id} + '/delete'}" method="post"
+                            th:onsubmit="return confirm('¿Seguro que deseas eliminar el rol ' + [[${role.name}]] + '?');">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

@@ -22,17 +22,24 @@ import edu.icesi.pensamiento_computacional.repository.RoleRepository;
 import edu.icesi.pensamiento_computacional.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
+    public static final String SESSION_USER_ID = "currentUserId";
+    public static final String SESSION_USER_NAME = "currentUserName";
+
     private final UserService userService;
     private final RoleRepository roleRepository;
 
     @GetMapping("/login")
-    public String showLoginForm(Model model) {
+    public String showLoginForm(Model model, HttpSession session) {
+        if (session.getAttribute(SESSION_USER_ID) != null) {
+            return "redirect:/dashboard";
+        }
         if (!model.containsAttribute("loginForm")) {
             model.addAttribute("loginForm", new LoginForm());
         }
@@ -43,7 +50,8 @@ public class AuthController {
     public String processLogin(@Valid @ModelAttribute("loginForm") LoginForm loginForm,
             BindingResult bindingResult,
             Model model,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "auth/login";
         }
@@ -68,7 +76,10 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String showRegisterForm(Model model) {
+    public String showRegisterForm(Model model, HttpSession session) {
+        if (session.getAttribute(SESSION_USER_ID) != null) {
+            return "redirect:/dashboard";
+        }
         if (!model.containsAttribute("registrationForm")) {
             model.addAttribute("registrationForm", new UserRegistrationForm());
         }
@@ -80,7 +91,8 @@ public class AuthController {
     public String processRegister(@Valid @ModelAttribute("registrationForm") UserRegistrationForm registrationForm,
             BindingResult bindingResult,
             Model model,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
         if (bindingResult.hasErrors()) {
             populateRoles(model);
             return "auth/register";
@@ -104,9 +116,16 @@ public class AuthController {
             newUser.setRoles(selectedRoles);
 
             userService.createUser(newUser);
+            UserAccount authenticated = userService.authenticate(registrationForm.getInstitutionalEmail(),
+                    registrationForm.getPassword());
+            session.setAttribute(SESSION_USER_ID, authenticated.getId());
+            session.setAttribute(SESSION_USER_NAME,
+                    authenticated.getFullName() != null && !authenticated.getFullName().isBlank()
+                            ? authenticated.getFullName()
+                            : authenticated.getInstitutionalEmail());
             redirectAttributes.addFlashAttribute("successMessage",
-                    "Cuenta creada con éxito. Ahora puedes iniciar sesión.");
-            return "redirect:/auth/login";
+                    "Cuenta creada con éxito. ¡Bienvenido!");
+            return "redirect:/dashboard";
         } catch (DataIntegrityViolationException ex) {
             model.addAttribute("registrationError", "El correo institucional ya está registrado.");
             populateRoles(model);
@@ -116,6 +135,13 @@ public class AuthController {
             populateRoles(model);
             return "auth/register";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+        session.invalidate();
+        redirectAttributes.addFlashAttribute("successMessage", "Has cerrado sesión correctamente.");
+        return "redirect:/Home";
     }
 
     private void populateRoles(Model model) {

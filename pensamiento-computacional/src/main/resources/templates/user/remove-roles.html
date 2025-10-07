@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear rol</title>
+    <title>Eliminar roles de un usuario</title>
     <style>
         body {
             margin: 0;
@@ -56,8 +56,6 @@
             font-weight: 600;
         }
 
-        input[type="text"],
-        textarea,
         select {
             padding: 0.75rem 1rem;
             border: 1px solid #cbd5f5;
@@ -66,13 +64,6 @@
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        input:focus,
-        textarea:focus,
         select:focus {
             outline: none;
             border-color: #2563eb;
@@ -90,7 +81,7 @@
         }
 
         button {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
             color: white;
             border: none;
             border-radius: 999px;
@@ -98,13 +89,13 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.2);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.25);
+            box-shadow: 0 15px 30px rgba(220, 38, 38, 0.25);
         }
 
         .alert {
@@ -122,44 +113,39 @@
 </head>
 <body>
     <header>
-        <h2>Administración de roles</h2>
+        <h2>Administración de usuarios</h2>
         <nav>
             <a th:href="@{/dashboard}">Panel principal</a>
-            <span style="margin: 0 0.75rem; color: rgba(224, 231, 255, 0.7);">|</span>
-            <a th:href="@{/Home}">Inicio público</a>
         </nav>
     </header>
 
     <main>
         <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-        <h1>Crear rol</h1>
-        <p>Completa la información del rol y selecciona los permisos que se asociarán.</p>
+        <h1>Eliminar roles de un usuario</h1>
+        <p>Selecciona el usuario y los roles que deseas quitar. El usuario debe conservar al menos un rol asignado.</p>
 
-        <form th:action="@{/roles/create}" th:object="${roleForm}" method="post">
+        <form th:action="@{/users/remove-roles}" th:object="${removalForm}" method="post">
             <div class="form-group">
-                <label for="name">Nombre del rol</label>
-                <input id="name" type="text" th:field="*{name}" placeholder="Ej: ADMIN" />
-                <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-            </div>
-
-            <div class="form-group">
-                <label for="description">Descripción</label>
-                <textarea id="description" th:field="*{description}" placeholder="Describe las responsabilidades del rol"></textarea>
-                <div class="field-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-            </div>
-
-            <div class="form-group">
-                <label for="permissionIds">Permisos disponibles</label>
-                <select id="permissionIds" th:field="*{permissionIds}" multiple size="6">
-                    <option th:each="permission : ${permissions}" th:value="${permission.id}"
-                        th:text="${permission.name}"></option>
+                <label for="userId">Usuario</label>
+                <select id="userId" th:field="*{userId}">
+                    <option value="" disabled selected>Selecciona un usuario</option>
+                    <option th:each="user : ${users}" th:value="${user.id}"
+                        th:text="${user.fullName + ' (' + user.institutionalEmail + ')'}"></option>
                 </select>
-                <small>Usa Ctrl (o Cmd) para seleccionar múltiples permisos.</small>
-                <div class="field-error" th:if="${#fields.hasErrors('permissionIds')}" th:errors="*{permissionIds}"></div>
+                <div class="field-error" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="roleIds">Roles asignados</label>
+                <select id="roleIds" th:field="*{roleIds}" multiple size="8">
+                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                </select>
+                <small>Selecciona los roles que deseas eliminar del usuario.</small>
+                <div class="field-error" th:if="${#fields.hasErrors('roleIds')}" th:errors="*{roleIds}"></div>
             </div>
 
             <div class="form-actions">
-                <button type="submit">Crear rol</button>
+                <button type="submit">Eliminar roles seleccionados</button>
             </div>
         </form>
     </main>
