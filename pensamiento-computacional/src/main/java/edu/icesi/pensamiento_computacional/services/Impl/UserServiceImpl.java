@@ -117,6 +117,49 @@ public class UserServiceImpl implements UserService {
         return userAccount;
     }
 
+    @Override
+    @Transactional
+    public void assignRoles(Integer userId, Set<Integer> roleIds) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User identifier is required to assign roles.");
+        }
+        if (roleIds == null || roleIds.isEmpty()) {
+            throw new IllegalArgumentException("A user must have at least one role assigned.");
+        }
+
+        UserAccount userAccount = userAccountRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User account not found with id " + userId));
+
+        Set<Role> managedRoles = loadRolesByIds(roleIds);
+        userAccount.setRoles(managedRoles);
+        userAccountRepository.save(userAccount);
+    }
+
+    @Override
+    @Transactional
+    public void removeRoles(Integer userId, Set<Integer> roleIds) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User identifier is required to remove roles.");
+        }
+        if (roleIds == null || roleIds.isEmpty()) {
+            throw new IllegalArgumentException("Specify at least one role to remove from the user.");
+        }
+
+        UserAccount userAccount = userAccountRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User account not found with id " + userId));
+
+        Set<Role> remainingRoles = userAccount.getRoles().stream()
+                .filter(role -> !roleIds.contains(role.getId()))
+                .collect(Collectors.toSet());
+
+        if (remainingRoles.isEmpty()) {
+            throw new IllegalArgumentException("A user must have at least one role assigned.");
+        }
+
+        userAccount.setRoles(remainingRoles);
+        userAccountRepository.save(userAccount);
+    }
+
 
     private Set<Role> loadRoles(Set<Role> roles) {
         if (roles == null || roles.isEmpty()) {

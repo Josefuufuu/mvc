@@ -13,4 +13,6 @@ public interface UserService {
     UserAccount getUserById(Integer id);
     List<UserAccount> getAllUsers();
     UserAccount authenticate(String institutionalEmail, String rawPassword);
+    void assignRoles(Integer userId, Set<Integer> roleIds);
+    void removeRoles(Integer userId, Set<Integer> roleIds);
 }

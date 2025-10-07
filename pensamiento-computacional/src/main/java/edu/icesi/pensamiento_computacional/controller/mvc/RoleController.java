@@ -20,6 +20,7 @@ import edu.icesi.pensamiento_computacional.model.Permission;
 import edu.icesi.pensamiento_computacional.model.Role;
 import edu.icesi.pensamiento_computacional.repository.PermissionRepository;
 import edu.icesi.pensamiento_computacional.services.RoleService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,11 @@ public class RoleController {
     private final PermissionRepository permissionRepository;
 
     @GetMapping("/create")
-    public String showCreateRoleForm(Model model) {
+    public String showCreateRoleForm(HttpSession session, Model model) {
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
         if (!model.containsAttribute("roleForm")) {
             model.addAttribute("roleForm", new RoleForm());
         }
@@ -43,10 +48,16 @@ public class RoleController {
     }
 
     @PostMapping("/create")
-    public String createRole(@Valid @ModelAttribute("roleForm") RoleForm roleForm,
+    public String createRole(HttpSession session,
+            @Valid @ModelAttribute("roleForm") RoleForm roleForm,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes) {
+
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
 
         if (bindingResult.hasErrors()) {
             populatePermissions(model);
@@ -82,7 +93,11 @@ public class RoleController {
     }
 
     @GetMapping("/assign-permissions")
-    public String showAssignPermissions(Model model) {
+    public String showAssignPermissions(HttpSession session, Model model) {
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
         if (!model.containsAttribute("assignmentForm")) {
             model.addAttribute("assignmentForm", new RolePermissionAssignmentForm());
         }
@@ -92,10 +107,16 @@ public class RoleController {
     }
 
     @PostMapping("/assign-permissions")
-    public String assignPermissions(@Valid @ModelAttribute("assignmentForm") RolePermissionAssignmentForm assignmentForm,
+    public String assignPermissions(HttpSession session,
+            @Valid @ModelAttribute("assignmentForm") RolePermissionAssignmentForm assignmentForm,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes) {
+
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
 
         if (bindingResult.hasErrors()) {
             populateRoles(model);
@@ -133,13 +154,23 @@ public class RoleController {
     }
 
     @GetMapping("/manage")
-    public String showRoleManagement(Model model) {
+    public String showRoleManagement(HttpSession session, Model model) {
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
         model.addAttribute("roles", roleService.getAllRoles());
         return "roles/manage";
     }
 
     @PostMapping("/{roleId}/delete")
-    public String deleteRole(@PathVariable Integer roleId, RedirectAttributes redirectAttributes) {
+    public String deleteRole(HttpSession session,
+            @PathVariable Integer roleId,
+            RedirectAttributes redirectAttributes) {
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
         try {
             roleService.deleteRole(roleId);
             redirectAttributes.addFlashAttribute("successMessage", "Rol eliminado correctamente.");
@@ -158,5 +189,12 @@ public class RoleController {
 
     private void populateRoles(Model model) {
         model.addAttribute("roles", roleService.getAllRoles());
+    }
+
+    private String redirectIfNotAuthenticated(HttpSession session) {
+        if (session.getAttribute(AuthController.SESSION_USER_ID) == null) {
+            return "redirect:/auth/login";
+        }
+        return null;
     }
 }
