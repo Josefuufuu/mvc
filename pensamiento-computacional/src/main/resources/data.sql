@@ -1,11 +1,11 @@
 -- Tabla: USER_ACCOUNT
 INSERT INTO USER_ACCOUNT (id, institutional_email, password_hash, full_name, profile_photo_url, created_at, self_declared_level)
 VALUES
-(1, 'user1@icesi.edu.co', 'hash1', 'User Uno', NULL, CURRENT_TIMESTAMP, NULL),
-(2, 'user2@icesi.edu.co', 'hash2', 'User Dos', NULL, CURRENT_TIMESTAMP, NULL),
-(3, 'user3@icesi.edu.co', 'hash3', 'User Tres', NULL, CURRENT_TIMESTAMP, NULL),
-(4, 'user4@icesi.edu.co', 'hash4', 'User Cuatro', NULL, CURRENT_TIMESTAMP, NULL),
-(5, 'user5@icesi.edu.co', 'hash5', 'User Cinco', NULL, CURRENT_TIMESTAMP, NULL);
+(1, 'user1@icesi.edu.co', '$2a$10$SsreIeaOxvvMtRxlPNxnwOynxJXI72QaHUdajMjyN/iXGVP9zGoeK', 'User Uno', NULL, CURRENT_TIMESTAMP, NULL),
+(2, 'user2@icesi.edu.co', '$2a$10$MIpC9S68xS7UjB7kp9Pmous9yzYfKTwwkAj5Ur0OB7Wn3GVY6uGUO', 'User Dos', NULL, CURRENT_TIMESTAMP, NULL),
+(3, 'user3@icesi.edu.co', '$2a$10$1mYcpvaCSyqBb7AYhIG6w.ujC1gxCMPxAWUE7aElECk2tWWWGgUj2', 'User Tres', NULL, CURRENT_TIMESTAMP, NULL),
+(4, 'user4@icesi.edu.co', '$2a$10$59pDBihOSH8OaZFqQ.YmaOwXCVlsyy.tS9BMxwr1YrA09/k3thYdu', 'User Cuatro', NULL, CURRENT_TIMESTAMP, NULL),
+(5, 'user5@icesi.edu.co', '$2a$10$tqIVfKcfOBcatzA8JZGEtOxzkyQmBBFCG8ZHUcgbdF3kem.HULdrq', 'User Cinco', NULL, CURRENT_TIMESTAMP, NULL);
 
 ALTER TABLE USER_ACCOUNT ALTER COLUMN id RESTART WITH 6;
 
