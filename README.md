@@ -37,6 +37,20 @@ mvn spring-boot:run
 - **Database:** H2 (in-memory)
 - **H2 Console:** http://192.168.131.107:8089/pcomputacional/h2-console
 
+## Demo accounts
+
+The seeded users in `data.sql` authenticate with their institutional email and the following plain-text passwords:
+
+| Email | Password |
+| --- | --- |
+| `user1@icesi.edu.co` | `user1pass` |
+| `user2@icesi.edu.co` | `user2pass` |
+| `user3@icesi.edu.co` | `user3pass` |
+| `user4@icesi.edu.co` | `user4pass` |
+| `user5@icesi.edu.co` | `user5pass` |
+
+These values correspond to the BCrypt digests stored in `pensamiento-computacional/src/main/resources/data.sql`.
+
 ## API Endpoints
 
 **Base URL:** `http://192.168.131.107:8089/pcomputacional`
