@@ -273,6 +273,15 @@ class UserServiceTest {
                 () -> userService.authenticate(storedUser.getInstitutionalEmail(), "wrong"));
     }
 
+    @Test
+    void authenticate_withUnknownEmail_throwsException() {
+        when(userAccountRepository.findByInstitutionalEmail("unknown@icesi.edu.co"))
+                .thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.authenticate("unknown@icesi.edu.co", "password"));
+    }
+
     private UserAccount buildUser(Set<Role> roles) {
         UserAccount user = new UserAccount();
         user.setInstitutionalEmail("user@icesi.edu.co");
