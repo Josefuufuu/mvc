@@ -104,6 +104,18 @@ public class UserServiceImpl implements UserService {
         return userAccountRepository.findAll();
     }
 
+    @Override
+    public UserAccount authenticate(String institutionalEmail, String rawPassword) {
+        UserAccount userAccount = userAccountRepository.findByInstitutionalEmail(institutionalEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid institutional email or password."));
+
+        if (!passwordEncoder.matches(rawPassword, userAccount.getPasswordHash())) {
+            throw new IllegalArgumentException("Invalid institutional email or password.");
+        }
+
+        return userAccount;
+    }
+
 
     private Set<Role> loadRoles(Set<Role> roles) {
         if (roles == null || roles.isEmpty()) {
