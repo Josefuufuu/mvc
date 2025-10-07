@@ -1,0 +1,146 @@
+/*
+ * Estilos para la vista de listado de usuarios. Este archivo aprovecha las mismas
+ * variables de color definidas en auth.css para mantener una apariencia
+ * consistente en toda la aplicación. La tabla se diseña de manera limpia y
+ * moderna con filas alternadas y botones para acciones comunes.
+ */
+
+:root {
+    --primary-color: #1d4ed8;
+    --primary-color-hover: #1e40af;
+    --background-color: #f3f4f6;
+    --card-background: #ffffff;
+    --text-color: #1f2937;
+    --error-color: #dc2626;
+    --success-color: #16a34a;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Contenedor principal que centra la tabla y aplica sombreado */
+.user-container {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: var(--card-background);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+.user-container h1 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+/* Tabla de usuarios */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.95rem;
+}
+
+.user-table th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+/* Filas alternadas para mejorar la legibilidad */
+.user-table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+/* Sección de acciones */
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.actions a {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    display: inline-block;
+}
+
+/* Botón para ver detalles */
+.actions a.view-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+.actions a.view-btn:hover {
+    background-color: var(--primary-color-hover);
+}
+
+/* Botón para editar */
+.actions a.edit-btn {
+    background-color: #f59e0b;
+    color: white;
+}
+.actions a.edit-btn:hover {
+    background-color: #d97706;
+}
+
+/* Botón para asignar roles */
+.actions a.roles-btn {
+    background-color: #10b981;
+    color: white;
+}
+.actions a.roles-btn:hover {
+    background-color: #059669;
+}
+
+/* Mensajes de feedback */
+.flash-message {
+    margin-bottom: 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+}
+.flash-message.success {
+    background-color: rgba(22, 163, 74, 0.1);
+    color: var(--success-color);
+    border-color: rgba(22, 163, 74, 0.2);
+}
+.flash-message.error {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: var(--error-color);
+    border-color: rgba(220, 38, 38, 0.2);
+}
+
+@media (max-width: 600px) {
+    .user-container {
+        padding: 1rem;
+    }
+    .user-table th,
+    .user-table td {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+    .actions a {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.75rem;
+    }
+}

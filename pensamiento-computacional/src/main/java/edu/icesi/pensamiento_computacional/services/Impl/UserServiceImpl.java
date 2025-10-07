@@ -104,20 +104,6 @@ public class UserServiceImpl implements UserService {
         return userAccountRepository.findAll();
     }
 
-    @Override
-    public UserAccount authenticate(String institutionalEmail, String password) {
-        if (institutionalEmail == null || institutionalEmail.isBlank()) {
-            throw new IllegalArgumentException("El correo institucional es obligatorio.");
-        }
-
-        if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("La contraseña es obligatoria.");
-        }
-
-        return userAccountRepository.findByInstitutionalEmail(institutionalEmail)
-                .filter(user -> password != null && passwordEncoder.matches(password, user.getPasswordHash()))
-                .orElseThrow(() -> new IllegalArgumentException("Correo o contraseña incorrectos."));
-    }
 
     private Set<Role> loadRoles(Set<Role> roles) {
         if (roles == null || roles.isEmpty()) {

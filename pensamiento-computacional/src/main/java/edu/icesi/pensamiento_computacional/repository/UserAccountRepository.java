@@ -3,6 +3,7 @@ package edu.icesi.pensamiento_computacional.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import edu.icesi.pensamiento_computacional.model.UserAccount;
 @Repository
 public interface UserAccountRepository extends JpaRepository<UserAccount, Integer> {
 
+    @EntityGraph(attributePaths = {"roles"})
     Optional<UserAccount> findByInstitutionalEmail(String institutionalEmail);
 
     boolean existsByInstitutionalEmail(String institutionalEmail);

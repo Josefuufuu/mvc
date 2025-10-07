@@ -55,28 +55,23 @@ public class AuthController {
             return "auth/login";
         }
 
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginForm.getInstitutionalEmail(),
-                            loginForm.getPassword()));
+    try {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginForm.getInstitutionalEmail(),
+                        loginForm.getPassword()));
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            UserAccount authenticatedUser = userService.authenticate(
-                    loginForm.getInstitutionalEmail(),
-                    loginForm.getPassword());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            String displayName = resolveDisplayName(authentication);
-            redirectAttributes.addFlashAttribute("successMessage",
-                    "Bienvenido, " + displayName + "!");
-            return "redirect:/Home";
-        } catch (AuthenticationException | IllegalArgumentException ex) {
-            model.addAttribute("authenticationError", "Correo o contraseña incorrectos.");
-            return "auth/login";
+        String displayName = resolveDisplayName(authentication);
+        redirectAttributes.addFlashAttribute("successMessage",
+                "Bienvenido, " + displayName + "!");
+        return "redirect:/Home";
+            } catch (AuthenticationException | IllegalArgumentException ex) {
+                model.addAttribute("authenticationError", "Correo o contraseña incorrectos.");
+                return "auth/login";
+            }
         }
-    }
 
     private String resolveDisplayName(Authentication authentication) {
         Object principal = authentication.getPrincipal();

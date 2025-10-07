@@ -23,26 +23,28 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/login", "/auth/register", "/css/**", "/", "/Home").permitAll()
-                        .requestMatchers("/roles/**").hasRole("ADMIN")
-                        .anyRequest().permitAll())
-                .formLogin(login -> login
-                        .loginPage("/auth/login")
-                        .defaultSuccessUrl("/Home", true)
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/auth/login?logout")
-                        .permitAll());
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers("/auth/register", "/css/**", "/", "/Home").permitAll()
+                    .requestMatchers("/roles/**").hasRole("ADMIN")
+                    .anyRequest().authenticated())  // Changed from permitAll
+            .formLogin(login -> login
+                    .loginPage("/auth/login")
+                    .loginProcessingUrl("/auth/login")  // Add this
+                    .defaultSuccessUrl("/Home", true)
+                    .failureUrl("/auth/login?error")  // Add this
+                    .permitAll())
+            .logout(logout -> logout
+                    .logoutUrl("/auth/logout")
+                    .logoutSuccessUrl("/auth/login?logout")
+                    .permitAll());
 
-        http.authenticationProvider(authenticationProvider());
-        return http.build();
-    }
+    http.authenticationProvider(authenticationProvider());
+    return http.build();
+}
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
