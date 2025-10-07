@@ -68,9 +68,7 @@ public class AuthController {
 
             redirectAttributes.addFlashAttribute("successMessage",
                     "Bienvenido, " + displayName + "!");
-            session.setAttribute(SESSION_USER_ID, authenticatedUser.getId());
-            session.setAttribute(SESSION_USER_NAME, displayName);
-            return "redirect:/dashboard";
+            return "redirect:/Home";
         } catch (IllegalArgumentException ex) {
             model.addAttribute("authenticationError", "Correo o contraseña incorrectos.");
             return "auth/login";
