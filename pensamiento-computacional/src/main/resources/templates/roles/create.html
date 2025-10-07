@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear rol</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+            color: #fff;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: #e0e7ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 960px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(30, 64, 175, 0.12);
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            padding: 0.75rem 1rem;
+            border: 1px solid #cbd5f5;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .field-error {
+            color: #dc2626;
+            font-size: 0.875rem;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        button {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.25);
+        }
+
+        .alert {
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background-color: rgba(34, 197, 94, 0.15);
+            color: #15803d;
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Administración de roles</h2>
+        <nav>
+            <a th:href="@{/Home}">Volver al inicio</a>
+        </nav>
+    </header>
+
+    <main>
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <h1>Crear rol</h1>
+        <p>Completa la información del rol y selecciona los permisos que se asociarán.</p>
+
+        <form th:action="@{/roles/create}" th:object="${roleForm}" method="post">
+            <div class="form-group">
+                <label for="name">Nombre del rol</label>
+                <input id="name" type="text" th:field="*{name}" placeholder="Ej: ADMIN" />
+                <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea id="description" th:field="*{description}" placeholder="Describe las responsabilidades del rol"></textarea>
+                <div class="field-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="permissionIds">Permisos disponibles</label>
+                <select id="permissionIds" th:field="*{permissionIds}" multiple size="6">
+                    <option th:each="permission : ${permissions}" th:value="${permission.id}"
+                        th:text="${permission.name}"></option>
+                </select>
+                <small>Usa Ctrl (o Cmd) para seleccionar múltiples permisos.</small>
+                <div class="field-error" th:if="${#fields.hasErrors('permissionIds')}" th:errors="*{permissionIds}"></div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Crear rol</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

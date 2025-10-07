@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,8 +64,9 @@
         <h1>Esta es la pagina principal</h1>
         <p>Accede con tu cuenta para continuar o crea una nueva si es tu primera vez.</p>
         <div class="action-buttons">
-            <a th:href="@{/auth/login}">Iniciar sesión</a>
-            <a th:href="@{/auth/register}">Registrarme</a>
+            <a sec:authorize="isAnonymous()" th:href="@{/auth/login}">Iniciar sesión</a>
+            <a sec:authorize="isAnonymous()" th:href="@{/auth/register}">Registrarme</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/roles/create}">Crear roles</a>
         </div>
     </div>
 </body>
