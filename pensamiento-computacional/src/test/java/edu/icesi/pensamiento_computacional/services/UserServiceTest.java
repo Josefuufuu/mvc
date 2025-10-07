@@ -247,6 +247,32 @@ class UserServiceTest {
         assertEquals(users, result);
     }
 
+    @Test
+    void authenticate_withValidCredentials_returnsUser() {
+        UserAccount storedUser = buildUser(Set.of(buildRole(1, "Teacher")));
+        storedUser.setPasswordHash("encoded-password123");
+
+        when(userAccountRepository.findByInstitutionalEmail(storedUser.getInstitutionalEmail()))
+                .thenReturn(Optional.of(storedUser));
+
+        UserAccount result = userService.authenticate(storedUser.getInstitutionalEmail(), "password123");
+
+        assertNotNull(result);
+        assertEquals(storedUser, result);
+    }
+
+    @Test
+    void authenticate_withInvalidCredentials_throwsException() {
+        UserAccount storedUser = buildUser(Set.of(buildRole(1, "Teacher")));
+        storedUser.setPasswordHash("encoded-password123");
+
+        when(userAccountRepository.findByInstitutionalEmail(storedUser.getInstitutionalEmail()))
+                .thenReturn(Optional.of(storedUser));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.authenticate(storedUser.getInstitutionalEmail(), "wrong"));
+    }
+
     private UserAccount buildUser(Set<Role> roles) {
         UserAccount user = new UserAccount();
         user.setInstitutionalEmail("user@icesi.edu.co");
