@@ -16,6 +16,7 @@ import edu.icesi.pensamiento_computacional.controller.mvc.form.UserRoleRemovalFo
 import edu.icesi.pensamiento_computacional.model.UserAccount;
 import edu.icesi.pensamiento_computacional.services.RoleService;
 import edu.icesi.pensamiento_computacional.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,14 +32,22 @@ public class UserController {
 
 
     @GetMapping("userList")
-    public String getUsers(Model model){
+    public String getUsers(HttpSession session, Model model){
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
         List<UserAccount> users  = userService.getAllUsers();
         model.addAttribute("users", users);
         return ("userList");
     }
 
     @GetMapping("/assign-roles")
-    public String showAssignRoles(Model model) {
+    public String showAssignRoles(HttpSession session, Model model) {
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
         if (!model.containsAttribute("assignmentForm")) {
             model.addAttribute("assignmentForm", new UserRoleAssignmentForm());
         }
@@ -47,10 +56,16 @@ public class UserController {
     }
 
     @PostMapping("/assign-roles")
-    public String assignRoles(@Valid @ModelAttribute("assignmentForm") UserRoleAssignmentForm assignmentForm,
+    public String assignRoles(HttpSession session,
+            @Valid @ModelAttribute("assignmentForm") UserRoleAssignmentForm assignmentForm,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes) {
+
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
 
         if (bindingResult.hasErrors()) {
             populateUsersAndRoles(model);
@@ -72,7 +87,11 @@ public class UserController {
     }
 
     @GetMapping("/remove-roles")
-    public String showRemoveRoles(Model model) {
+    public String showRemoveRoles(HttpSession session, Model model) {
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
         if (!model.containsAttribute("removalForm")) {
             model.addAttribute("removalForm", new UserRoleRemovalForm());
         }
@@ -81,10 +100,16 @@ public class UserController {
     }
 
     @PostMapping("/remove-roles")
-    public String removeRoles(@Valid @ModelAttribute("removalForm") UserRoleRemovalForm removalForm,
+    public String removeRoles(HttpSession session,
+            @Valid @ModelAttribute("removalForm") UserRoleRemovalForm removalForm,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes) {
+
+        String redirect = redirectIfNotAuthenticated(session);
+        if (redirect != null) {
+            return redirect;
+        }
 
         if (bindingResult.hasErrors()) {
             populateUsersAndRoles(model);
@@ -108,5 +133,12 @@ public class UserController {
     private void populateUsersAndRoles(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("roles", roleService.getAllRoles());
+    }
+
+    private String redirectIfNotAuthenticated(HttpSession session) {
+        if (session.getAttribute(AuthController.SESSION_USER_ID) == null) {
+            return "redirect:/auth/login";
+        }
+        return null;
     }
 }
