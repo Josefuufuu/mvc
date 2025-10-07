@@ -3,8 +3,7 @@ package edu.icesi.pensamiento_computacional.security;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,12 +28,19 @@ public class UserAccountDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(
                         "No se encontró un usuario con el correo institucional proporcionado."));
 
-        Set<GrantedAuthority> authorities = userAccount.getRoles().stream()
+        Set<String> authorities = userAccount.getRoles().stream()
                 .map(Role::getName)
                 .map(roleName -> "ROLE_" + roleName.toUpperCase())
-                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
 
-        return new UserAccountPrincipal(userAccount, authorities);
+        return User.builder()
+                .username(userAccount.getInstitutionalEmail())
+                .password(userAccount.getPasswordHash())
+                .authorities(authorities.toArray(String[]::new))
+                .accountLocked(false)
+                .accountExpired(false)
+                .credentialsExpired(false)
+                .disabled(false)
+                .build();
     }
 }

@@ -104,6 +104,13 @@ public class UserServiceImpl implements UserService {
         return userAccountRepository.findAll();
     }
 
+    @Override
+    public UserAccount authenticate(String institutionalEmail, String password) {
+        return userAccountRepository.findByInstitutionalEmail(institutionalEmail)
+                .filter(user -> password != null && passwordEncoder.matches(password, user.getPasswordHash()))
+                .orElseThrow(() -> new IllegalArgumentException("Correo o contraseña incorrectos."));
+    }
+
     private Set<Role> loadRoles(Set<Role> roles) {
         if (roles == null || roles.isEmpty()) {
             throw new IllegalArgumentException("A user must have at least one role assigned.");
