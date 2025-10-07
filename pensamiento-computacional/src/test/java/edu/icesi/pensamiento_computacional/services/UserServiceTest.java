@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -16,12 +18,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import edu.icesi.pensamiento_computacional.model.Role;
 import edu.icesi.pensamiento_computacional.model.UserAccount;
@@ -39,8 +43,21 @@ class UserServiceTest {
     @Mock
     private RoleRepository roleRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private UserServiceImpl userService;
+
+    @BeforeEach
+    void setupEncoder() {
+        lenient().when(passwordEncoder.encode(anyString())).thenAnswer(invocation -> "encoded-" + invocation.getArgument(0));
+        lenient().when(passwordEncoder.matches(anyString(), anyString())).thenAnswer(invocation -> {
+            String raw = invocation.getArgument(0);
+            String encoded = invocation.getArgument(1);
+            return encoded.equals("encoded-" + raw) || encoded.equals(raw);
+        });
+    }
 
     @Test
     void createUser_withValidRoles_persistsUser() {
@@ -130,7 +147,7 @@ class UserServiceTest {
         UserAccount updatedUser = userService.updateUser(existingUser.getId(), userChanges);
 
         assertEquals(userChanges.getInstitutionalEmail(), updatedUser.getInstitutionalEmail());
-        assertEquals(userChanges.getPasswordHash(), updatedUser.getPasswordHash());
+        assertEquals("encoded-" + userChanges.getPasswordHash(), updatedUser.getPasswordHash());
         assertEquals(userChanges.getFullName(), updatedUser.getFullName());
         assertEquals(userChanges.getProfilePhotoUrl(), updatedUser.getProfilePhotoUrl());
         assertEquals(userChanges.getCreatedAt(), updatedUser.getCreatedAt());
@@ -228,6 +245,32 @@ class UserServiceTest {
         List<UserAccount> result = userService.getAllUsers();
 
         assertEquals(users, result);
+    }
+
+    @Test
+    void authenticate_withValidCredentials_returnsUser() {
+        UserAccount storedUser = buildUser(Set.of(buildRole(1, "Teacher")));
+        storedUser.setPasswordHash("encoded-password123");
+
+        when(userAccountRepository.findByInstitutionalEmail(storedUser.getInstitutionalEmail()))
+                .thenReturn(Optional.of(storedUser));
+
+        UserAccount result = userService.authenticate(storedUser.getInstitutionalEmail(), "password123");
+
+        assertNotNull(result);
+        assertEquals(storedUser, result);
+    }
+
+    @Test
+    void authenticate_withInvalidCredentials_throwsException() {
+        UserAccount storedUser = buildUser(Set.of(buildRole(1, "Teacher")));
+        storedUser.setPasswordHash("encoded-password123");
+
+        when(userAccountRepository.findByInstitutionalEmail(storedUser.getInstitutionalEmail()))
+                .thenReturn(Optional.of(storedUser));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.authenticate(storedUser.getInstitutionalEmail(), "wrong"));
     }
 
     private UserAccount buildUser(Set<Role> roles) {

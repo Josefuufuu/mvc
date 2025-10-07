@@ -5,6 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +24,7 @@ import edu.icesi.pensamiento_computacional.controller.mvc.form.UserRegistrationF
 import edu.icesi.pensamiento_computacional.model.Role;
 import edu.icesi.pensamiento_computacional.model.UserAccount;
 import edu.icesi.pensamiento_computacional.repository.RoleRepository;
+import edu.icesi.pensamiento_computacional.security.UserAccountPrincipal;
 import edu.icesi.pensamiento_computacional.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +36,7 @@ public class AuthController {
 
     private final UserService userService;
     private final RoleRepository roleRepository;
+    private final AuthenticationManager authenticationManager;
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
@@ -49,17 +56,32 @@ public class AuthController {
         }
 
         try {
-            UserAccount authenticatedUser = userService.authenticate(
-                    loginForm.getInstitutionalEmail(),
-                    loginForm.getPassword());
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginForm.getInstitutionalEmail(),
+                            loginForm.getPassword()));
 
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String displayName = resolveDisplayName(authentication);
             redirectAttributes.addFlashAttribute("successMessage",
-                    "Bienvenido, " + authenticatedUser.getFullName() + "!");
+                    "Bienvenido, " + displayName + "!");
             return "redirect:/Home";
-        } catch (IllegalArgumentException ex) {
-            model.addAttribute("authenticationError", ex.getMessage());
+        } catch (AuthenticationException | IllegalArgumentException ex) {
+            model.addAttribute("authenticationError", "Correo o contraseña incorrectos.");
             return "auth/login";
         }
+    }
+
+    private String resolveDisplayName(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserAccountPrincipal userPrincipal) {
+            String fullName = userPrincipal.getFullName();
+            if (fullName != null && !fullName.isBlank()) {
+                return fullName;
+            }
+        }
+        return authentication.getName();
     }
 
     @GetMapping("/register")

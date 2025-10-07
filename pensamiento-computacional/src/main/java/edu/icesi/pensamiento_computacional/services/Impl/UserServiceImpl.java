@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserAccountRepository userAccountRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserAccountRepository userAccountRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserAccountRepository userAccountRepository, RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder) {
         this.userAccountRepository = userAccountRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -56,6 +60,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setRoles(managedRoles);
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         return userAccountRepository.save(user);
     }
 
@@ -66,7 +71,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User account not found with id " + id));
 
         existingUser.setInstitutionalEmail(user.getInstitutionalEmail());
-        existingUser.setPasswordHash(user.getPasswordHash());
+        if (user.getPasswordHash() == null || user.getPasswordHash().isBlank()) {
+            throw new IllegalArgumentException("La contraseña es obligatoria.");
+        }
+
+        existingUser.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         existingUser.setFullName(user.getFullName());
         existingUser.setProfilePhotoUrl(user.getProfilePhotoUrl());
         existingUser.setCreatedAt(user.getCreatedAt());
@@ -97,8 +106,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserAccount authenticate(String institutionalEmail, String password) {
+        if (institutionalEmail == null || institutionalEmail.isBlank()) {
+            throw new IllegalArgumentException("El correo institucional es obligatorio.");
+        }
+
+        if (password == null || password.isBlank()) {
+            throw new IllegalArgumentException("La contraseña es obligatoria.");
+        }
+
         return userAccountRepository.findByInstitutionalEmail(institutionalEmail)
-                .filter(user -> password != null && password.equals(user.getPasswordHash()))
+                .filter(user -> passwordEncoder.matches(password, user.getPasswordHash()))
                 .orElseThrow(() -> new IllegalArgumentException("Correo o contraseña incorrectos."));
     }
 
