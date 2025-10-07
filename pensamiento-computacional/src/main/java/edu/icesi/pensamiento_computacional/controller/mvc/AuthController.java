@@ -5,6 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +35,7 @@ public class AuthController {
 
     private final UserService userService;
     private final RoleRepository roleRepository;
+    private final AuthenticationManager authenticationManager;
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
@@ -49,6 +55,12 @@ public class AuthController {
         }
 
         try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginForm.getInstitutionalEmail(),
+                            loginForm.getPassword()));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             UserAccount authenticatedUser = userService.authenticate(
                     loginForm.getInstitutionalEmail(),
                     loginForm.getPassword());
@@ -56,8 +68,8 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("successMessage",
                     "Bienvenido, " + authenticatedUser.getFullName() + "!");
             return "redirect:/Home";
-        } catch (IllegalArgumentException ex) {
-            model.addAttribute("authenticationError", ex.getMessage());
+        } catch (AuthenticationException | IllegalArgumentException ex) {
+            model.addAttribute("authenticationError", "Correo o contraseña incorrectos.");
             return "auth/login";
         }
     }
