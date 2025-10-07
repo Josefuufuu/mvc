@@ -24,6 +24,7 @@ import edu.icesi.pensamiento_computacional.controller.mvc.form.UserRegistrationF
 import edu.icesi.pensamiento_computacional.model.Role;
 import edu.icesi.pensamiento_computacional.model.UserAccount;
 import edu.icesi.pensamiento_computacional.repository.RoleRepository;
+import edu.icesi.pensamiento_computacional.security.UserAccountPrincipal;
 import edu.icesi.pensamiento_computacional.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -65,13 +66,27 @@ public class AuthController {
                     loginForm.getInstitutionalEmail(),
                     loginForm.getPassword());
 
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String displayName = resolveDisplayName(authentication);
             redirectAttributes.addFlashAttribute("successMessage",
-                    "Bienvenido, " + authenticatedUser.getFullName() + "!");
+                    "Bienvenido, " + displayName + "!");
             return "redirect:/Home";
         } catch (AuthenticationException | IllegalArgumentException ex) {
             model.addAttribute("authenticationError", "Correo o contraseña incorrectos.");
             return "auth/login";
         }
+    }
+
+    private String resolveDisplayName(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserAccountPrincipal userPrincipal) {
+            String fullName = userPrincipal.getFullName();
+            if (fullName != null && !fullName.isBlank()) {
+                return fullName;
+            }
+        }
+        return authentication.getName();
     }
 
     @GetMapping("/register")

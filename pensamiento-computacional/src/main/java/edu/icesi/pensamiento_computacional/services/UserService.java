@@ -11,5 +11,4 @@ public interface UserService {
     void deleteUser(Integer id);
     UserAccount getUserById(Integer id);
     List<UserAccount> getAllUsers();
-    UserAccount authenticate(String institutionalEmail, String password);
 }
